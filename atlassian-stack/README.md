@@ -44,4 +44,7 @@ available at the following URLs:
 * JIRA: `https://$PROXY_HOST/jira`
 * Stash: `https://$PROXY_HOST/stash`
 
+During configuration, specify `postgresql` as the database host, `5432` as the database port, and `bamboo`, `jira`, or
+`stash` as the database name depending on which application you are configuring.
+
 Additionally, Stash will listen for Git-over-SSH via `$PROXY_HOST:7999`.
