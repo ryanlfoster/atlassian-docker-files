@@ -1,0 +1,53 @@
+bamboo:
+  build: ./bamboo
+  env_file:
+    - ./atlassian-stack.environment
+  volumes:
+    - /opt/data/bamboo:/opt/data/bamboo
+    - /opt/data/certs:/opt/data/certs
+    - /opt/data/maven:/root/.m2
+  links:
+    - postgresql
+
+jira:
+  build: ./jira
+  env_file:
+    - ./atlassian-stack.environment
+  volumes:
+    - /opt/data/certs:/opt/data/certs
+    - /opt/data/jira:/opt/data/jira
+  links:
+    - postgresql
+
+nginx:
+  build: ./nginx
+  env_file:
+    - ./atlassian-stack.environment
+  volumes:
+    - /opt/data/certs:/opt/data/certs
+  links:
+    - bamboo
+    - jira
+    - stash
+  ports:
+    - "443:443"
+
+postgresql:
+  build: ./postgresql
+  env_file:
+    - ./atlassian-stack.environment
+  volumes:
+    - /opt/data/postgresql:/var/lib/postgresql/data
+
+stash:
+  build: ./stash
+  env_file:
+    - ./atlassian-stack.environment
+  volumes:
+    - /opt/data/certs:/opt/data/certs
+    - /opt/data/stash:/opt/data/stash
+  links:
+    - postgresql
+  ports:
+    - "7999:7999"
+
